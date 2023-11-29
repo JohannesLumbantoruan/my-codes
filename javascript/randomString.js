@@ -1,3 +1,11 @@
+/*
+** This code generate random string that consist of only
+** uppercase and lowercase letter, and also number.
+** You simply pass amount of string you want and 
+** the function will return random string with
+** the same amount
+*/
+
 const chars = [];
 
 for (let i = 48; i < 123; i++) {
