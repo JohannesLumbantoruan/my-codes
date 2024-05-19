@@ -16,6 +16,7 @@ class Node
 class LinkedList
 {
   public ?Node $head;
+  public int $length = 0;
 
   public function __construct()
   {
@@ -52,6 +53,8 @@ class LinkedList
       $node->next = $this->head;
       $this->head = $node;
     }
+
+    $this->length += 1;
   }
 
   public function push(int $data)
@@ -72,6 +75,8 @@ class LinkedList
         }
       }
     }
+
+    $this->length += 1;
   }
 
   public function shift()
@@ -83,6 +88,8 @@ class LinkedList
     } else {
       $this->head = $node->next;
     }
+
+    $this->length -= 1;
   }
 
   public function pop()
@@ -104,6 +111,8 @@ class LinkedList
         }
       }
     }
+
+    $this->length -= 1;
   }
 }
 
@@ -113,18 +122,18 @@ for ($i = 1; $i <= 5; $i++) {
   $ll->unshift($i * 10);
 }
 
-echo $ll->print() . PHP_EOL;
+echo $ll->print() . ", length: {$ll->length}\n";
 
 for ($i = 1; $i <= 5; $i++) {
   $ll->push($i * 5);
 }
 
-echo $ll->print() . PHP_EOL;
+echo $ll->print() . ", length: {$ll->length}\n";
 
 $ll->shift();
 
-echo $ll->print() . PHP_EOL;
+echo $ll->print() . ", length: {$ll->length}\n";
 
 $ll->pop();
 
-echo $ll->print() . PHP_EOL;
+echo $ll->print() . ", length: {$ll->length}\n";
