@@ -17,4 +17,6 @@ rl.question("Enter a number: ", (num: string) => {
   console.log(`Factorial of ${num}: ${factorial(parseInt(num))}`);
 
   rl.close();
+
+  return num;
 });
