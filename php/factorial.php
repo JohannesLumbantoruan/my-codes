@@ -10,6 +10,6 @@ function factorial($n) {
 echo "Enter number: ";
 
 $input = fopen("php://stdin", "r");
-$number = trim(fgets($input));
+$number = intval(trim(fgets($input)));
 
 echo "Factorial of $number: " . factorial($number);
