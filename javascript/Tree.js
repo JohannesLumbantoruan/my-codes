@@ -9,6 +9,30 @@ class TreeNode {
 class Tree {
   constructor(root) {
     this.root = root;
+    this._height = null;
+  }
+
+  get height() {
+    if (this._height === null) {
+      this._height = this.getHeight(this.root);
+    }
+
+    return this._height;
+  }
+
+  getHeight(root) {
+    if (root === null) {
+      return 0;
+    } else {
+      const left = this.getHeight(root.left);
+      const right = this.getHeight(root.right);
+
+      if (left > right) {
+        return left + 1;
+      } else {
+        return right + 1;
+      }
+    }
   }
   
   preorder(root, arr) {
@@ -89,3 +113,4 @@ const levelorder = [];
 tree.levelorder(root, levelorder);
 
 console.log(`levelorder: ${levelorder.join('->')}`);
+console.log(`height: ${tree.height}`);
