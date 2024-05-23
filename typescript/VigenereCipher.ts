@@ -89,6 +89,26 @@ async function main() {
   `);
 
   const option = parseInt(await input('Choose an option: '));
+  let text = await input('Enter text: ');
+  const key = await input('Enter key: ');
+
+  rl.close();
+
+  text = text.toLocaleLowerCase();
+
+  const vc = new VigenereCipher(key);
+
+  if (option === 1) {
+    const result = vc.encode(text);
+
+    console.log(`Cipher text: ${result}`);
+  }
+
+  if (option === 2) {
+    const result = vc.decode(text);
+
+    console.log(`Plain text: ${result}`);
+  }
 }
 
 main();
