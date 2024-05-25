@@ -48,7 +48,7 @@ void push(int** arr, int* size, int data) {
 void unshift(int** arr, int* size, int data) {
   *arr = (int*)realloc(*arr, (*size + 1) * sizeof(int));
 
-  memmove((*arr) + 1, *arr, (*size) * sizeof(int));
+  memmove((*arr) + 1, *arr, (*size - 1) * sizeof(int));
   (*arr)[0] = data;
 
   (*size)++;
