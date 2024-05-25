@@ -3,3 +3,4 @@ typescript/package-lock.json
 typescript/*.js
 java/*.class
 **/*.exe
+**/*.jar
