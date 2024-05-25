@@ -45,11 +45,11 @@ class Tree {
     arr.push(root.data);
   }
 
-  levelorder(root: TreeNode | null, arr: number[]) {
+  levelorder(root: TreeNode, arr: number[]) {
     const queue = [root];
 
     while (queue.length > 0) {
-      const node = queue.shift();
+      const node = queue.shift()!;
 
       arr.push(node.data);
 

@@ -33,20 +33,24 @@ class Tree(val root: TreeNode) {
     arr.add(root.data)
   }
 
-  fun levelorder(root: TreeNode?, arr: MutableList<Int>) {
+  fun levelorder(root: TreeNode, arr: MutableList<Int>) {
     val queue = mutableListOf(root)
 
     while (queue.size > 0) {
       val node = queue.removeAt(0)
 
-      arr.add(node!!.data)
+      arr.add(node.data)
 
-      if (node?.left != null) {
-        queue.add(node!!.left)
+      val left = node.left;
+
+      if (left != null) {
+        queue.add(left)
       }
 
-      if (node?.right != null) {
-        queue.add(node!!.right)
+      val right = node.right;
+
+      if (right != null) {
+        queue.add(right)
       }
     }
   }
