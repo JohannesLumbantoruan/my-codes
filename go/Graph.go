@@ -1,8 +1,9 @@
 package main
 
 import (
-	"slices"
 	"fmt"
+	"slices"
+	"strings"
 )
 
 type Edge struct {
@@ -85,10 +86,24 @@ func (g Graph) String() string {
 			}
 		}
 
-		result += "\n"
+		// result += "\n"
 	}
 
 	return result
+}
+
+func (g *Graph) dfs(start *Vertex, visited *[]*Vertex, arr *[]string) {
+	*arr = append(*arr, start.data)
+
+	for _, edge := range start.edges {
+		neighbor := edge.end
+
+		if !slices.Contains(*visited, neighbor) {
+			*visited = append(*visited, neighbor)
+
+			g.dfs(neighbor, visited, arr)
+		}
+	}
 }
 
 func main() {
@@ -140,4 +155,11 @@ func main() {
 	graph.addEdge(v3, v1, &w31)
 
 	fmt.Println(graph)
+
+	visited := []*Vertex{}
+	arr := []string{}
+
+	graph.dfs(v1, &visited, &arr)
+
+	fmt.Printf("dfs traversal: %v\n", strings.Join(arr, "->"))
 }
