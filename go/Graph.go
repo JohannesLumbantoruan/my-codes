@@ -85,8 +85,6 @@ func (g Graph) String() string {
 				result += fmt.Sprintf("%v -> %v\n", vertex.data, edge.end.data)
 			}
 		}
-
-		// result += "\n"
 	}
 
 	return result
@@ -94,14 +92,34 @@ func (g Graph) String() string {
 
 func (g *Graph) dfs(start *Vertex, visited *[]*Vertex, arr *[]string) {
 	*arr = append(*arr, start.data)
+	*visited = append(*visited, start)
 
 	for _, edge := range start.edges {
 		neighbor := edge.end
 
 		if !slices.Contains(*visited, neighbor) {
-			*visited = append(*visited, neighbor)
-
 			g.dfs(neighbor, visited, arr)
+		}
+	}
+}
+
+func (g *Graph) bfs(start *Vertex, arr *[]string) {
+	visited := []*Vertex{ start }
+	queue := []*Vertex{ start }
+
+	for len(queue) > 0 {
+		vertex := queue[0]
+		queue = queue[1:]
+
+		*arr = append(*arr, vertex.data)
+
+		for _, edge := range vertex.edges {
+			neighbor := edge.end
+
+			if !slices.Contains(visited, neighbor) {
+				visited = append(visited, neighbor)
+				queue = append(queue, neighbor)
+			}
 		}
 	}
 }
@@ -109,57 +127,105 @@ func (g *Graph) dfs(start *Vertex, visited *[]*Vertex, arr *[]string) {
 func main() {
 	graph := Graph{ []*Vertex{}, false, false }
 
-	v1 := graph.addVertex("A")
-	v2 := graph.addVertex("B")
-	v3 := graph.addVertex("C")
+	v0 := graph.addVertex("0")
+	v1 := graph.addVertex("1")
+	v2 := graph.addVertex("2")
+	v3 := graph.addVertex("3")
+	v4 := graph.addVertex("4")
 
+	graph.addEdge(v0, v1, nil)
+	graph.addEdge(v0, v2, nil)
 	graph.addEdge(v1, v2, nil)
 	graph.addEdge(v1, v3, nil)
-	graph.addEdge(v2, v3, nil)
+	graph.addEdge(v2, v4, nil)
+	graph.addEdge(v3, v4, nil)
 
 	fmt.Println("Unweighted and Undirected Graph")
 
-	fmt.Println(graph)
-
-	graph = Graph{ []*Vertex{}, true, false }
-
-	v1 = graph.addVertex("A")
-	v2 = graph.addVertex("B")
-	v3 = graph.addVertex("C")
-
-	w12 := 10
-	w23 := 5
-	w13 := 15
-
-	fmt.Println("Weighted Graphs")
-
-	graph.addEdge(v1, v2, &w12)
-	graph.addEdge(v2, v3, &w23)
-	graph.addEdge(v1, v3, &w13)
-
-	fmt.Println(graph)
-
-	fmt.Println("Weighted and Directed Graph")
-
-	graph = Graph{ []*Vertex{}, true, true }
-
-	v1 = graph.addVertex("A")
-	v2 = graph.addVertex("B")
-	v3 = graph.addVertex("C")
-
-	w31 := 20
-
-	graph.addEdge(v1, v2, &w12)
-	graph.addEdge(v1, v3, &w13)
-	graph.addEdge(v2, v3, &w23)
-	graph.addEdge(v3, v1, &w31)
-
-	fmt.Println(graph)
+	fmt.Print(graph)
 
 	visited := []*Vertex{}
 	arr := []string{}
 
-	graph.dfs(v1, &visited, &arr)
+	graph.dfs(v0, &visited, &arr)
 
 	fmt.Printf("dfs traversal: %v\n", strings.Join(arr, "->"))
+
+	arr = []string{}
+
+	graph.bfs(v0, &arr)
+
+	fmt.Printf("bfs traversal: %v\n", strings.Join(arr, "->"))
+
+	graph = Graph{ []*Vertex{}, true, false }
+
+	w12 := 10
+	w13 := 10
+	w23 := 5
+	w24 := 15
+	w35 := 15
+	w45 := 5
+
+	fmt.Println("\nWeighted Graphs")
+
+	v0 = graph.addVertex("0")
+	v1 = graph.addVertex("1")
+	v2 = graph.addVertex("2")
+	v3 = graph.addVertex("3")
+	v4 = graph.addVertex("4")
+
+	graph.addEdge(v0, v1, &w12)
+	graph.addEdge(v0, v2, &w13)
+	graph.addEdge(v1, v2, &w23)
+	graph.addEdge(v1, v3, &w24)
+	graph.addEdge(v2, v4, &w35)
+	graph.addEdge(v3, v4, &w45)
+
+	fmt.Print(graph)
+
+	visited = []*Vertex{}
+	arr = []string{}
+
+	graph.dfs(v0, &visited, &arr)
+
+	fmt.Printf("dfs traversal: %v\n", strings.Join(arr, "->"))
+
+	arr = []string{}
+
+	graph.bfs(v0, &arr)
+
+	fmt.Printf("bfs traversal: %v\n", strings.Join(arr, "->"))
+
+
+	fmt.Println("\nWeighted and Directed Graph")
+
+	graph = Graph{ []*Vertex{}, true, true }
+
+	v0 = graph.addVertex("0")
+	v1 = graph.addVertex("1")
+	v2 = graph.addVertex("2")
+	v3 = graph.addVertex("3")
+	v4 = graph.addVertex("4")
+
+	graph.addEdge(v0, v1, &w12)
+	graph.addEdge(v0, v2, &w13)
+	graph.addEdge(v1, v2, &w23)
+	graph.addEdge(v1, v3, &w24)
+	graph.addEdge(v2, v4, &w35)
+	graph.addEdge(v3, v4, &w45)
+
+	fmt.Print(graph)
+
+	visited = []*Vertex{}
+	arr = []string{}
+
+	graph.dfs(v0, &visited, &arr)
+
+	fmt.Printf("dfs traversal: %v\n", strings.Join(arr, "->"))
+
+	arr = []string{}
+
+	graph.bfs(v0, &arr)
+
+	fmt.Printf("bfs traversal: %v\n", strings.Join(arr, "->"))
 }
