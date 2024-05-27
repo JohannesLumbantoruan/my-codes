@@ -4,3 +4,4 @@ typescript/*.js
 java/*.class
 **/*.exe
 **/*.jar
+.vscode
