@@ -1,9 +1,5 @@
 class Edge {
-  start: Vertex;
-  end: Vertex;
-  weight: number | null;
-
-  constructor(start: Vertex, end: Vertex, weight: number | null) {
+  constructor(start, end, weight) {
     this.start = start;
     this.end = end;
     this.weight = weight;
@@ -11,36 +7,27 @@ class Edge {
 }
 
 class Vertex {
-  data: string;
-  edges: Edge[] = [];
-
-  constructor(data: string) {
+  constructor(data) {
     this.data = data;
+    this.edges = [];
   }
 
-  equals(other: Vertex) {
-    return this.data === other.data;
-  }
-
-  addEdge(end: Vertex, weight: number | null) {
+  addEdge(end, weight) {
     const edge = new Edge(this, end, weight);
 
     this.edges.push(edge);
   }
 
-  removeEdge(end: Vertex) {
-    this.edges = this.edges.filter((edge: Edge) => {
-      return edge.end.equals(end);
+  removeEdge(end) {
+    this.edges = this.edges.filter((edge) => {
+      return !edge.end.data === end.data;
     });
   }
 }
 
 class Graph {
-  vertices: Vertex[] = [];
-  isWeighted: boolean;
-  isDirected: boolean;
-
-  constructor(isWeighted: boolean, isDirected: boolean) {
+  constructor(isWeighted, isDirected) {
+    this.vertices = [];
     this.isWeighted = isWeighted;
     this.isDirected = isDirected;
   }
@@ -59,7 +46,7 @@ class Graph {
     }
   }
 
-  addVertex(data: string): Vertex {
+  addVertex(data) {
     const vertex = new Vertex(data);
 
     this.vertices.push(vertex);
@@ -67,25 +54,25 @@ class Graph {
     return vertex;
   }
 
-  removeVertex(vertex: Vertex) {
-    this.vertices = this.vertices.filter((v: Vertex) => {
-      return !v.equals(vertex);
-    })
+  removeVertex(vertex) {
+    this.vertices = this.vertices.filter((v) => {
+      return !v.data === vertex.data;
+    });
   }
 
-  addEdge(v1: Vertex, v2: Vertex, weight: number | null) {
+  addEdge(start, end, weight) {
     if (!this.isWeighted) {
       weight = null;
     }
 
-    v1.addEdge(v2, weight);
+    start.addEdge(end, weight);
 
     if (!this.isDirected) {
-      v2.addEdge(v1, weight);
+      end.addEdge(start, weight);
     }
   }
 
-  removeEdge(start: Vertex, end: Vertex) {
+  removeEdge(start, end) {
     start.removeEdge(end);
 
     if (!this.isDirected) {
@@ -93,7 +80,7 @@ class Graph {
     }
   }
 
-  dfs(start: Vertex, visited: Vertex[], arr: string[]) {
+  dfs(start, visited, arr) {
     visited.push(start);
     arr.push(start.data);
 
@@ -106,12 +93,12 @@ class Graph {
     }
   }
 
-  bfs(start: Vertex, arr: string[]) {
+  bfs(start, arr) {
     const visited = [start];
     const queue = [start];
 
     while (queue.length > 0) {
-      const vertex = queue.shift()!;
+      const vertex = queue.shift();
 
       arr.push(vertex.data);
 
@@ -129,11 +116,11 @@ class Graph {
 
 let graph = new Graph(false, false);
 
-let v0 = graph.addVertex("0");
-let v1 = graph.addVertex("1");
-let v2 = graph.addVertex("2");
-let v3 = graph.addVertex("3");
-let v4 = graph.addVertex("4");
+let v0 = graph.addVertex('0');
+let v1 = graph.addVertex('1');
+let v2 = graph.addVertex('2');
+let v3 = graph.addVertex('3');
+let v4 = graph.addVertex('4');
 
 graph.addEdge(v0, v1, null);
 graph.addEdge(v0, v2, null);
@@ -147,11 +134,11 @@ graph.print();
 
 graph = new Graph(true, false);
 
-v0 = graph.addVertex("0");
-v1 = graph.addVertex("1");
-v2 = graph.addVertex("2");
-v3 = graph.addVertex("3");
-v4 = graph.addVertex("4");
+v0 = graph.addVertex('0');
+v1 = graph.addVertex('1');
+v2 = graph.addVertex('2');
+v3 = graph.addVertex('3');
+v4 = graph.addVertex('4');
 
 const w01 = 10;
 const w02 = 10;
@@ -172,11 +159,11 @@ graph.print();
 
 graph = new Graph(true, true);
 
-v0 = graph.addVertex("0");
-v1 = graph.addVertex("1");
-v2 = graph.addVertex("2");
-v3 = graph.addVertex("3");
-v4 = graph.addVertex("4");
+v0 = graph.addVertex('0');
+v1 = graph.addVertex('1');
+v2 = graph.addVertex('2');
+v3 = graph.addVertex('3');
+v4 = graph.addVertex('4');
 
 graph.addEdge(v0, v1, w01);
 graph.addEdge(v0, v2, w02);
@@ -188,8 +175,8 @@ graph.addEdge(v3, v4, w34);
 console.log('\nWeighted and Directed Graph');
 graph.print();
 
-const visited: Vertex[] = [];
-let arr: string[] = [];
+const visited = [];
+let arr = [];
 
 graph.dfs(v0, visited, arr);
 
